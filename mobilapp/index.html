@@ -11,23 +11,46 @@
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
+    <div class="container" data-ng-controller="FilteringController">
+        <h3>Filtering and Sorting Data using "filter"</h3>
+        Name:<br />
+        <input type="text" data-ng-model="inputData.name" placeholder="name" />
+        <br />
+        City:<br />
+        <input type="text" data-ng-model="inputData.city" placeholder="city" />
+        <br />
+        <button class="btn btn-primary" data-ng-click="addCustomer()">Add Customer</button>
+        <br />
+        <br />
 
-    <div class="container" data-ng-init="names=['Dave','Napur','Heedy','Shriva', 'Michael', 'David']">
-        <h3>Looping with the ng-repeat Directive</h3>
-        <h4>Data to loop through is initialized using ng-init</h4>
-        <ul>
-            <li data-ng-repeat="name in names">{{name}}</li>
-        </ul>
+        Filter by Name:
+        <input type="text" data-ng-model="nameText" />
+        <br />
+    <ul>
+        <li data-ng-repeat="customer in customers | filter:nameText | orderBy:'name'">{{ customer.name | uppercase }} - {{ customer.city }}</li>
+    </ul>
     </div>
 
-<ul>
-    <li>Dave</li>
-    <li>Napur</li>
-    <li>Heedy</li>
-    <li>Shriva</li>
-    <li>Michael</li>
-    <li>David</li>
-</ul>
+    <script>
+        function FilteringController($scope) {
+            $scope.customers = [
+                { name: 'Dave Jones', city: 'Phoenix' },
+                { name: 'Jamie Riley', city: 'Phoenix' },
+                { name: 'Heedy Wahlin', city: 'Chandler' },
+                { name: 'Thomas Winter', city: 'Seattle' }
+            ];
+
+            $scope.addCustomer = function () {
+                $scope.customers.push({ name: $scope.inputData.name, city: $scope.inputData.city });
+            }
+        }
+
+        samplesModule.controller('FilteringController', FilteringController);
+    </script>
+
+
+
+
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/what-input.js"></script>
